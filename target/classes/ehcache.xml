@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="xsd/ehcache.xsd"
+	updateCheck="false" monitoring="autodetect" dynamicConfig="true">
+	<diskStore path="java.io.tmpdir/ehcache/spimp" />
+
+	<!-- 默认设置 -->
+	<defaultCache maxElementsInMemory="10000" maxElementsOnDisk="100000" memoryStoreEvictionPolicy="LRU"
+		eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="600" overflowToDisk="true" diskPersistent="false" />
+
+	<!-- 特例对象设置 -->
+	<cache name="SimplePageCachingFilter" maxElementsInMemory="1000" memoryStoreEvictionPolicy="LFU" eternal="false"
+		timeToIdleSeconds="432000" timeToLiveSeconds="864000" overflowToDisk="false" />
+
+	<cache name="cn.ccrise.ikjp.core.security.entity.LogEntity" maxElementsInMemory="10000" maxElementsOnDisk="100000"
+		memoryStoreEvictionPolicy="LRU" eternal="true" overflowToDisk="true" diskPersistent="false" />
+
+	<cache name="org.hibernate.cache.spi.UpdateTimestampsCache" maxElementsInMemory="10000" maxElementsOnDisk="100000"
+		memoryStoreEvictionPolicy="LRU" eternal="true" overflowToDisk="true" diskPersistent="false" />
+
+	<cache name="org.hibernate.cache.internal.StandardQueryCache" maxElementsInMemory="50" maxElementsOnDisk="100"
+		memoryStoreEvictionPolicy="LRU" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="7200" overflowToDisk="true"
+		diskPersistent="false" />
+</ehcache>

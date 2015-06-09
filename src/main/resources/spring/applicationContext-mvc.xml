@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+	  xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+        http://www.springframework.org/schema/websocket
+        http://www.springframework.org/schema/websocket/spring-websocket.xsd">
+
+	<description>MVC配置</description>
+
+	<context:component-scan base-package="exportExcel.web" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+	<!-- 配置本地化资源位置 -->
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<!-- 多国际化资源文件 -->
+		<property name="basenames">
+			<array>
+				<value>/WEB-INF/messages/messages</value>
+				<value>/WEB-INF/messages/validations</value>
+				<value>/WEB-INF/messages/logs</value>
+			</array>
+		</property>
+		<property name="defaultEncoding" value="UTF-8" />
+		<!-- 不要在生产环境中设置为0 -->
+		<property name="cacheSeconds" value="60" />
+	</bean>
+
+	<!-- 对模型视图名称的解析，在模型视图名称添加前后缀 -->
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<!-- 文件上传解析 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 文件最大字节数，100mb=104857600bytes -->
+		<property name="maxUploadSize" value="104857600" />
+	</bean>
+
+	<!-- 国际化，强制国际化信息使用中文 -->
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+		<property name="defaultLocale" value="zh" />
+	</bean>
+
+ 
+
+ 
+	<!-- 采用注解定义配置 -->
+	<mvc:annotation-driven />
+
+	<!-- 定义视图 -->
+	<mvc:view-controller path="/" view-name="index" />
+
+	<!-- 设置对静态资源的处理 -->
+	<mvc:resources location="/WEB-INF/resources/" mapping="/static-resources/**" cache-period="2592000" />
+	<mvc:resources location="/WEB-INF/resources/favicon.ico" mapping="/favicon.ico" cache-period="2592000" />
+	<mvc:resources location="/WEB-INF/views/" mapping="/static-views/**" cache-period="2592001" />
+	<!-- 上传文件 -->
+	<mvc:resources location="/WEB-INF/uploads/" mapping="/uploads/**" cache-period="0" />
+	
+	<!-- 设置拦截器 -->
+</beans>

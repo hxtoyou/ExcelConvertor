@@ -1,0 +1,506 @@
+body {
+	font-family: "Microsoft YaHei", "Helvetica Neue", Helvetica,
+		"Lucida Grande", "Luxi Sans", Arial, sans-serif;
+}
+
+*:focus {
+	outline: 0px !important;
+}
+
+.btn {
+	border-width: 0;
+}
+
+.btn-group>.btn,.btn-group+.btn {
+	border-width: 0px !important;
+}
+
+.btn.btn-app {
+	width: 120px;
+	height: 120px;
+	font-family: "Microsoft YaHei", "Helvetica Neue", Helvetica,
+		"Lucida Grande", "Luxi Sans", Arial, sans-serif;
+}
+
+.page-toolbar {
+	position: relative;
+	border-bottom: 1px solid #e5e5e5;
+	background-color: #f5f5f5;
+	min-height: 40px;
+	line-height: 39px;
+	padding: 0 20px 0 10px;
+	display: block;
+}
+
+.toolbar {
+	background-color: transparent;
+	display: inline-block;
+	line-height: 24px;
+	margin: 0 22px 0 0;
+	padding: 0;
+	font-size: 13px;
+	color: #333;
+	border-radius: 0;
+}
+
+.nav-query {
+	position: absolute;
+	top: 6px;
+	left: 10px;
+	line-height: 24px;
+}
+
+.multi-query {
+	height: 24px;
+	margin-bottom: 8px;
+}
+
+.multi-query input {
+	line-height: 18px;
+	height: 14px;
+	padding: 4px 2px;
+	margin-bottom: 4px;
+	font-size: 12px;
+}
+
+.multi-query button {
+	margin-bottom: 4px;
+}
+
+@media only screen and (max-width:979px) {
+	.toolbar {
+		margin-left: 80px
+	}
+	.nav-query {
+		margin-left: 80px
+	}
+}
+
+@media only screen and (max-width: 767px) {
+	.input-prepend input,.input-append input {
+		width: 60px;
+	}
+}
+
+@media only screen and (max-width:320px) {
+	.toolbar {
+		margin-left: 26px
+	}
+	.nav-query {
+		margin-left: 26px
+	}
+}
+
+.nav-query input[type="text"],input[type="datetime"] {
+	height: 20px;
+	line-height: 20px;
+	font-size: 12px;
+	padding: 1px;
+}
+
+.nav-query select {
+	height: 24px;
+	line-height: 24px;
+	font-size: 12px;
+	padding: 1px;
+}
+
+.nav-search select {
+	height: 24px;
+	line-height: 24px;
+	font-size: 12px;
+	padding: 1px;
+}
+
+.page-header {
+	padding-bottom: 5px;
+}
+
+.page-content {
+	padding: 8px 10px 10px;
+}
+
+/* 弹出框样式 */
+.modal-header {
+	padding: 0px 15px;
+}
+
+.modal-header h5 {
+	margin: 6px 0;
+}
+
+.modal-body {
+	max-height: 720px;
+	padding: 10px;
+}
+
+.modal-body form {
+	margin: 0;
+}
+
+.modal-body form .control-group {
+	margin-bottom: 6px;
+	min-height: 26px;
+}
+
+.modal-body form .control-label {
+	padding-top: 3px;
+	min-height: 26px !important;
+}
+
+.modal-body form input,.modal-body form select {
+	height: 26px;
+	font-size: 13px;
+	min-height: 26px !important;
+	box-sizing: border-box;
+}
+
+.modal-body form input[readonly],.modal-body form textarea[readonly] {
+	font-size: 14px;
+	color: #111;
+	background-color: #fff !important;
+	border-top: 0;
+	border-right: 0;
+	border-bottom: 1px #d5e4f1 dotted;
+	border-left: 0;
+	cursor: default;
+}
+
+.modal-body .alert {
+	padding: 4px 35px 4px 14px;
+	margin-bottom: 0;
+}
+
+.modal-xs {
+	width: 240px;
+}
+
+.modal-xs form label {
+	width: 70px !important;
+	float: left !important;
+	box-sizing: border-box;
+}
+
+.modal-xs form .control-group input,.modal-xs form .control-group select,.modal-xs form .control-group textarea
+	{
+	width: 130px;
+	box-sizing: border-box;
+}
+
+.modal-xs .controls {
+	margin-left: 80px;
+}
+
+.modal-sm {
+	width: 400px;
+}
+
+.modal-sm form label {
+	width: 90px !important;
+	float: left !important;
+	box-sizing: border-box;
+}
+
+.modal-sm form .control-group input,.modal-sm form .control-group select,.modal-sm form .control-group textarea
+	{
+	width: 270px;
+	box-sizing: border-box;
+}
+
+.modal-sm .controls {
+	margin-left: 100px;
+}
+
+.modal-md {
+	width: 560px;
+}
+
+.modal-md form label {
+	width: 110px !important;
+	box-sizing: border-box;
+}
+
+.modal-md form .control-group input,.modal-md form .control-group select,.modal-md form .control-group textarea
+	{
+	width: 400px;
+	box-sizing: border-box;
+}
+
+.modal-md .controls {
+	margin-left: 130px;
+}
+
+.modal-lg {
+	width: 720px;
+}
+
+.modal-lg form label {
+	width: 110px !important;
+	box-sizing: border-box;
+}
+
+.modal-lg form .control-group input,.modal-lg form .control-group select,.modal-lg form .control-group textarea
+	{
+	width: 560px;
+	box-sizing: border-box;
+}
+
+.modal-lg .controls {
+	margin-left: 130px;
+}
+
+.modal-xl {
+	width: 880px;
+}
+
+.modal-xl form .control-group label {
+	width: 110px !important;
+	box-sizing: border-box;
+}
+
+.modal-xl form .control-group input,.modal-xl form .control-group select,.modal-xl form .control-group textarea
+	{
+	width: 720px;
+	box-sizing: border-box;
+}
+
+.modal-xl .controls {
+	margin-left: 130px;
+}
+
+.modal-el {
+	width: 1040px;
+}
+
+.modal-el form .control-group label {
+	width: 110px !important;
+	box-sizing: border-box;
+}
+
+.modal-el form .control-group input,.modal-el form .control-group select,.modal-el form .control-group textarea
+	{
+	width: 880px;
+	box-sizing: border-box;
+}
+
+.modal-el .controls {
+	margin-left: 130px;
+}
+
+/* 四列表格布局 */
+.modal-xl .table-col-4 {
+	width: 100%;
+}
+
+.modal-xl .table-col-4 td {
+	width: 215px;
+}
+
+.modal-xl .table-col-4 label {
+	width: 70px;
+	margin-right: 5px;
+	display: inline-block;
+}
+
+.modal-xl .table-col-4 select,.modal-xl .table-col-4 input {
+	width: 130px;
+	padding: 0;
+}
+
+/* 评分表格 */
+.grade-table {
+	table-layout: fixed;
+	width: 100%;
+	font-size: 12px;
+	color: #111;
+}
+
+.grade-table th {
+	font-size: 13px;
+	background-color: #dfe3e8;
+}
+
+.grade-table th,.grade-table td {
+	border: 1px #333 solid;
+}
+
+.grade-table input,.grade-table textarea {
+	font-size: 12px !important;
+	color: #111;
+	font-family: "Microsoft YaHei", "Helvetica Neue", Helvetica,
+		"Lucida Grande", "Luxi Sans", Arial, sans-serif;
+}
+
+.widthTd {
+	border-bottom: 0 !important;
+	border-top: 0 !important;
+	padding-bottom: 0;
+	padding-top: 0;
+}
+
+.modal-footer {
+	padding: 6px 15px;
+}
+
+.modal-backdrop,.modal-backdrop.fade.in {
+	opacity: .15;
+	filter: alpha(opacity = 15);
+}
+
+/* 菜单 */
+.menu-toggler {
+	background-color: #888;
+}
+
+.menu-toggler>.menu-text {
+	border-top-color: #888;
+}
+
+.tooltip.in {
+	opacity: 0.8;
+	filter: alpha(opacity = 80);
+}
+
+.tooltip-inner {
+	font-family: "Microsoft YaHei", "Helvetica Neue", Helvetica,
+		"Lucida Grande", "Luxi Sans", Arial, sans-serif;
+	font-size: 12px;
+	font-weight: normal;
+}
+
+.tooltip-warning+.tooltip>.tooltip-inner {
+	background-color: #f9f2ba;
+	color: #5b5316;
+	border: 1px solid #e9d315;
+}
+
+.tooltip-warning+.tooltip.top .tooltip-arrow {
+	border-top-color: #e9d315
+}
+
+.tooltip-warning+.tooltip.right .tooltip-arrow {
+	border-right-color: #e9d315
+}
+
+.tooltip-warning+.tooltip.left .tooltip-arrow {
+	border-left-color: #e9d315
+}
+
+.tooltip-warning+.tooltip.bottom .tooltip-arrow {
+	border-bottom-color: #e9d315
+}
+
+.label-small {
+	font-size: 10px;
+	padding: 1px 5px 1px;
+}
+
+.tree-widget-box {
+	border-top: 2px solid #4c8fbd;
+	border-bottom: 0;
+	margin: 0;
+	box-shadow: 0 -2px 3px 0 rgba(0, 0, 0, 0.15);
+}
+
+.tree-widget-header {
+	min-height: 32px;
+	background: #fff;
+	border-bottom: 1px solid #c5d0dc;
+}
+
+.tree-widget-header>:first-child {
+	line-height: 26px;
+}
+
+.tree-widget-body {
+	border: 1px solid #c5d0dc;
+	border-top: 0;
+}
+
+.tree-widget-main {
+	overflow: auto;
+}
+
+.ztree li a:hover {
+	text-decoration: none !important;
+	background-color: #f9f2ba !important;
+}
+
+.ztree li a.curSelectedNode {
+	background-color: #f9f2ba !important;
+	border: 1px #f9f2ba solid !important;
+}
+
+.toolbar-ft {
+	border-top: 1px solid #ddd;
+}
+
+/* 表格 */
+.panel-mod {
+	margin-bottom: 0 !important;
+}
+
+.grid-cell {
+	border-color: rgb(225, 225, 225) !important;
+	border-style: solid !important;
+}
+
+.grid-mark-cell {
+	background-color: #f2f2f2 !important;
+}
+
+.alert-message {
+	padding: 1px 35px 1px 14px;
+	margin-bottom: 0;
+	font-size: 13px;
+}
+
+.pointer {
+	cursor: pointer;
+}
+
+.nav-search-input210 {
+	width: 210px !important;
+}
+
+.nav-add-on {
+	padding: 1px 5px !important;
+}
+
+.page-report-table-tr td {
+	padding: 1px 0px 1px 4px;
+}
+
+.sidebar {
+	width: 199px;
+}
+
+.sidebar:before {
+	width: 199px;
+}
+
+.main-content {
+	margin-left: 200px;
+}
+
+/* 整改通知单样式 */
+.reform-table {
+	table-layout: fixed;
+	width: 100%;
+	font-size: 12px;
+	color: #111;
+}
+
+.reform-table td {
+	border: 1px #333 solid;
+}
+
+.fileinput-button input {
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 0;
+	opacity: 0;
+	-ms-filter: 'alpha(opacity=0)';
+	cursor: pointer;
+}
