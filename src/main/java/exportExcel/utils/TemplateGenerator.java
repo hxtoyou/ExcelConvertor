@@ -9,7 +9,7 @@ import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 
-import exportExcel.web.entity.HtmlStructure;
+import exportExcel.entity.HtmlStructure;
 import freemarker.cache.NullCacheStorage;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;

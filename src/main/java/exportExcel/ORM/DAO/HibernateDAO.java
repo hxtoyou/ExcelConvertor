@@ -23,7 +23,7 @@ import exportExcel.utils.Page;
  * @param <PK>
  *            主键类型
  * 
- * @author Xiong Shuhong
+ * @author He Xiao
  */
 public interface HibernateDAO<T, PK extends Serializable> extends GenericDAO<T, PK> {
 	/**

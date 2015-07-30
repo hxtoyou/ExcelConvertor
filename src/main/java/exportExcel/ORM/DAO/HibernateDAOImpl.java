@@ -3,9 +3,19 @@
  */
 package exportExcel.ORM.DAO;
 
+import java.io.InputStream;
 import java.io.Serializable;
+import java.sql.Clob;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
@@ -20,11 +30,18 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.stat.Statistics;
+import org.hibernate.type.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Table;
+
+import exportExcel.utils.DataConvertUtil;
 import exportExcel.utils.Page;
 import exportExcel.utils.ReflectionUtils;
 
@@ -45,7 +62,7 @@ import exportExcel.utils.ReflectionUtils;
  * @param <PK>
  *            主键类型
  * 
- * @author Xiong Shuhong
+ * @author He Xiao
  */
 public abstract class HibernateDAOImpl<T, PK extends Serializable> implements HibernateDAO<T, PK> {
 	/**
@@ -359,5 +376,103 @@ public abstract class HibernateDAOImpl<T, PK extends Serializable> implements Hi
 	private String getIdName() {
 		ClassMetadata meta = getSession().getSessionFactory().getClassMetadata(entityClass);
 		return meta.getIdentifierPropertyName();
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public List<Map<String,String>> queryBySqlExcel(String sql, Table params,String resultTag) {
+		ResultSet resultSet = null;
+		List<Map<String,String>> list = Lists.newArrayList();
+		try {
+			String newSql = analyzeSQL(sql, params);
+			String[] names = createQuery(newSql).getReturnAliases();
+			Type[] types =  createQuery(newSql).getReturnTypes();
+			Query resultQuery = createQuery(newSql);
+//			resultQuery.setParameter("mineID", mineId);
+//			leaderQuery.setParameter("mineID", mineId);
+//			List<Object[]> results = Lists.newArrayList();
+			Iterator results = resultQuery.list().iterator();
+//			ResultSetMetaData meta = resultSet.getMetaData(); //ResultSetMetaData可获取列的类型和属性信息
+	        int col =names.length; //获取列的数目
+			while(results.hasNext()) {
+				Map result = Maps.newHashMap();
+				for (int i = 0; i < col; i++) {
+					Type type = types[i];
+					String resultType = resultTag+".";
+					String ColumnName =resultType + type.getName();
+					String value = String.valueOf(results.next());
+//					if(java.sql.Types.DECIMAL == type. || java.sql.Types.NUMERIC == type){
+//						//小数点后的位数 
+//						int scale=type.get
+//						java.text.NumberFormat nf = java.text.NumberFormat.getInstance();   
+//						nf.setGroupingUsed(false);  
+//						if(scale > 0){
+//							result.put(ColumnName,DataConvertUtil.resultSetConvert(String.valueOf(nf.format(resultSet.getDouble(i+1)))));
+//						} else {
+//							result.put(ColumnName,DataConvertUtil.resultSetConvert(String.valueOf(nf.format(resultSet.getLong(i+1)))));
+//						}
+//					} else if(java.sql.Types.DATE == type. ){
+//						java.sql.Date sqldate = resultSet.getDate(i+1);
+//						if(sqldate != null){
+//							java.util.Date date = new Date(sqldate.getTime());
+//							SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//							result.put(ColumnName,DataConvertUtil.resultSetConvert(sdf.format(date)));
+//						}
+//					} else if(java.sql.Types.TIMESTAMP == type || java.sql.Types.TIME == type) {
+//						java.util.Date date = new Date(resultSet.getTimestamp(i+1).getTime());
+//						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//						result.put(ColumnName,DataConvertUtil.resultSetConvert(sdf.format(date)));
+//					} else if(java.sql.Types.INTEGER == type){
+//						result.put(ColumnName,DataConvertUtil.resultSetConvert(String.valueOf(resultSet.getLong(i+1))));
+//					} else if(java.sql.Types.BLOB == type){
+//						try{
+//							InputStream stream = resultSet.getBinaryStream(i+1);
+//							result.put(ColumnName, readObject(stream));
+//						}catch (Exception e) {
+//							result.put(ColumnName, DataConvertUtil.resultSetConvert(new String(resultSet.getBytes(i+1))));
+//						}
+//					} else if(java.sql.Types.CLOB == type){
+//						Clob clob = resultSet.getClob(i+1);
+//						String content = clobToString(clob);
+//						content = content.replaceAll(IMessageService.swiftBegin, "").replaceAll(IMessageService.swiftEnd, "");
+//						result.put(ColumnName,DataConvertUtil.resultSetConvert(content));
+//					}else if(java.sql.Types.VARCHAR==type){
+//						result.put(ColumnName,DataConvertUtil.resultSetConvert(resultSet.getString(i+1)));
+//					}else{
+//						result.put(ColumnName, DataConvertUtil.resultSetConvert(resultSet.getString(i+1)));
+//					}
+				}
+				list.add(result);
+			}
+			System.out.println("--执行SQL语句--"+ newSql);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+//			cleanResources(statement);
+		}
+		return list;
+	}
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public String analyzeSQL(String sql,Table params){
+		Set<Table.Cell<String, String, String>> cells = params.cellSet();
+		String newsql=sql;
+		for(Table.Cell<String, String, String> rowData:cells){
+				String name = rowData.getRowKey();
+				String type = rowData.getColumnKey();
+				String value = rowData.getValue();
+				if(!Strings.isNullOrEmpty(value)){
+					if(type.equals("easyui-datebox")) {
+						newsql = newsql.replaceAll("\\?"+name, "to_date('"+value+"','yyyy-MM-dd')");
+					}else{
+						newsql = newsql.replaceAll("\\?"+name, "'"+value+"'");
+					}
+				}else{
+					if(type.equals("easyui-datebox")) {
+						newsql = newsql.replaceAll("\\?"+name, "to_date(null,'yyyy-MM-dd')");
+					}else{
+						newsql = newsql.replaceAll("\\?"+name, "null");
+					}
+				}
+		}
+		return newsql;
 	}
 }

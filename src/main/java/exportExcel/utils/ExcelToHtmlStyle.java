@@ -11,9 +11,10 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
 
-import exportExcel.web.entity.HtmlRowStructure;
-import exportExcel.web.entity.HtmlStructure;
-import exportExcel.web.entity.HtmlTdStructure;
+import exportExcel.entity.HtmlRowStructure;
+import exportExcel.entity.HtmlStructure;
+import exportExcel.entity.HtmlTdStructure;
+
 
 /**
  * @author Xiao He(hxtoyou@163.com)

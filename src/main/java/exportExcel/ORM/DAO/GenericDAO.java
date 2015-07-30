@@ -17,7 +17,7 @@ import exportExcel.utils.Page;
  * @param <PK>
  *            主键类型
  * 
- * @author Xiong Shuhong
+ * @author He Xiao
  */
 public interface GenericDAO<T, PK extends Serializable> {
 	/**

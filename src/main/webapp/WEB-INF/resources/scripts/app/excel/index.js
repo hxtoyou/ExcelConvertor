@@ -117,7 +117,7 @@ $(document).ready(function() {
 			$("#statisticContent").css("width",data.data.result[0].tableWidth);
 //			$("#bottom").css("width",data.data.result[0].tableWidth);
 //			$("#out").css("width",data.data.result[0].tablewidth);
-		$("#statisticContent").html(html);
+			$("#statisticContent").html(html);
 		});
 	});
 });

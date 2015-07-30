@@ -1,6 +1,5 @@
 package exportExcel.utils;
 
-import java.awt.Color;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -8,20 +7,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-import org.apache.poi.hssf.converter.ExcelToFoUtils;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.apache.poi.ss.util.CellUtil;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFColor;
-import org.apache.poi.xssf.usermodel.XSSFFont;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
@@ -32,21 +27,90 @@ import com.google.common.collect.Maps;
  * 
  */
 public class ExcelColorUtil {
+	public final static Map<Short,String> colorMap=getColorMap();
+	public  static Map<Short, String> getColorMap(){
+		 Map<Short,String> colorMaps = Maps.newHashMap();
+		 for(int i=0;i<IndexedColors.values().length;i++){
+		       	XSSFColor color = new XSSFColor();
+		       	color.setIndexed(IndexedColors.values()[i].getIndex());
+		       	colorMaps.put(IndexedColors.values()[i].getIndex(), !Strings.isNullOrEmpty(color.getARGBHex())?color.getARGBHex().substring(2):"");
+		       	System.out.println("getARGBHex:"+color.getARGBHex());
+	
+		 }
+		 return colorMaps;
+	} 
 public static void main(String args[]){
 	Workbook workbook = getExcelWorkBook("src\\main\\java\\exportExcel\\utils\\test2.xlsx");
-	Short co = workbook.getSheetAt(0).getRow(0).getCell(0).getCellStyle().getBorderLeft();
-	Short c1 = 0;
-	if(workbook.getSheetAt(0).getRow(15).getCell(0)!=null){
-		 c1= workbook.getSheetAt(0).getRow(15).getCell(0).getCellStyle().getBorderLeft();
-	}
-	   Map<Short,String> colorMap = Maps.newLinkedHashMap();
-       for(int i=0;i<IndexedColors.values().length;i++){
-       	XSSFColor color = new XSSFColor();
-       	color.setIndexed(IndexedColors.values()[i].getIndex());
-       	colorMap.put(IndexedColors.values()[i].getIndex(), !Strings.isNullOrEmpty(color.getARGBHex())?color.getARGBHex().substring(2):"");
-       }
-       System.out.println("index:"+c1);
-     System.out.println("cl颜色:"+colorMap.get(c1));
+	Sheet sheet = workbook.getSheetAt(1);
+	Workbook workbook2 =new SXSSFWorkbook();
+	Sheet sheet2 = workbook2.createSheet("2");
+	CellStyle  cellStyle = sheet.getRow(0).getCell(0).getCellStyle();
+	System.out.println("cellSTYle1:"+colorMap.get(cellStyle.getFillForegroundColor()));
+	Row row = sheet2.createRow(0);
+	Cell cell = row.createCell(0);
+	cell.setCellStyle(cellStyle);
+	System.out.println("cellSTYle:"+colorMap.get(cell.getCellStyle().getFillForegroundColor()));
+//	Short co = workbook.getSheetAt(0).getRow(0).getCell(0).getCellStyle().getBorderLeft();
+//	Color c1 = null;
+//	colorMap=getColorMap();
+//	   Map<Short,String> colorMap = Maps.newLinkedHashMap();
+//       for(int i=0;i<IndexedColors.values().length;i++){
+//       	XSSFColor color = new XSSFColor();
+//       	color.setIndexed(IndexedColors.values()[i].getIndex());
+//       	colorMap.put(IndexedColors.values()[i].getIndex(), !Strings.isNullOrEmpty(color.getARGBHex())?color.getARGBHex().substring(2):"");
+//       }
+//   	if (workbook instanceof HSSFWorkbook) {  
+//	     HSSFWorkbook hb = (HSSFWorkbook) workbook;  
+//		     HSSFColor hc = hb.getCustomPalette().getColor(50);
+//		     HSSFSheet sheet = hb.getSheetAt(1);
+//				Integer rowNum = sheet.getLastRowNum();
+//				for(int i=0;i<rowNum;i++){
+//					Integer cellNum = (int) sheet.getRow(i).getLastCellNum();
+//					for(int j=0;j<cellNum;j++){
+////						int x = sheet.getRow(i).getCell(j).getRichStringCellValue().
+////						colorMap.get(x)
+//						System.out.println("row:"+i);
+//						System.out.println("cell:"+j);
+////						System.out.println("x:"+colorMap.get(x));
+//					}
+//				}
+//		     System.out.print(hc);
+//	 }else if(workbook instanceof XSSFWorkbook){
+//		   XSSFWorkbook hb = (XSSFWorkbook) workbook;  
+//			XSSFSheet sheet = hb.getSheetAt(1);
+//			Integer rowNum = sheet.getLastRowNum();
+//			System.out.println(colorMap);
+//			for(int i=0;i<rowNum;i++){
+//				Integer cellNum = (int) sheet.getRow(i).getLastCellNum();
+//				for(int j=0;j<cellNum;j++){
+//					XSSFFont x = sheet.getRow(i).getCell(j).getCellStyle().getFont();
+////					colorMap.get(x)
+//					System.out.println("row:"+i);
+//					System.out.println("cell:"+j);
+//					Boolean b = x.getBold();
+//					Short height = x.getFontHeightInPoints();
+//					Short h = x.getFontHeight();
+//					int name = x.getFamily();
+//					Short w = x.getBoldweight();
+//					Short c = x.getColor();
+//					String na = x.getFontName();
+//					System.out.println("getBold:"+b);
+////					System.out.println("getFontHeightInPoints:"+height);
+//					System.out.println("getFontHeight:"+h);
+//					System.out.println("getFamily:"+name);
+//					System.out.println("getBoldweight:"+w);
+//					System.out.println("getColor:"+c);
+//					System.out.println("getFontName:"+na);
+//				}
+//			}
+	 }
+
+//	if(workbook.getSheetAt(0).getRow(1).getCell(0)!=null){
+//		 c1= workbook.getSheetAt(0).getRow(1).getCell(0).getCellStyle().getFillBackgroundColorColor();
+//	}
+//	
+//       System.out.println("index:"+((XSSFColor)c1).getIndexed());
+//       System.out.println("cl颜色:"+colorMap.get(c1));
 //	Color color1 = null;
 //	if (workbook instanceof HSSFWorkbook) {  
 //        HSSFWorkbook hb = (HSSFWorkbook) workbook;  
@@ -85,7 +149,6 @@ public static void main(String args[]){
 //        color1 = Color.decode("#" + rgbHex);
 //        }
         
-    }
 /**
  * 根据文件的路径创建Workbook对象
  * 
