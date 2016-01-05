@@ -3,7 +3,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>基础信息 - 山西王庄煤业数字矿山综合管理平台</title>
+<title</title>
 <%@ include file="../../common/head.jsp"%>
 </head>
 <body class="navbar-fixed">

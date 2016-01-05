@@ -1,45 +1,53 @@
 package com.ebills.report.openxml.excel.action;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.bussprocess.context.Context;
-import org.apache.commons.bussprocess.exception.InvalidArgumentException;
-import org.apache.commons.bussprocess.exception.ObjectNotFoundException;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.struts2.ServletActionContext;
+import org.ironrhino.core.metadata.AutoConfig;
+import org.ironrhino.core.struts.BaseAction;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.eap.core.EAPConstance;
-import com.eap.flow.EAPAction;
-import com.ebills.report.openxml.excel.entity.ExcelForm;
-import com.ebills.report.openxml.excel.service.ReportsGeneratorService;
-import com.ebills.report.openxml.excel.util.ExcelToHtmlUtil;
-import com.ebills.util.EbillsException;
-import com.ebills.utils.CommonUtil;
+import com.ebills.common.platform.report.excel.entity.ExcelForm;
+import com.ebills.common.platform.report.excel.service.ReportsGeneratorService;
+import com.ebills.common.platform.report.excel.util.ExcelToHtmlUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
 
 /**
+ * Excel创建查询窗口
  * @author Xiao He E-mail:hxtoyou@163.com
  * @version 创建时间：2015年6月1日 下午2:57:46
  * 
  */
-public class ExcelCreateFormAction extends EAPAction {
+@AutoConfig
+public class ExcelCreateFormAction extends BaseAction {
+	/**
+	 * 
+	 */
+	private static final long	serialVersionUID	= 1L;
 	private List<ExcelForm> configItems = Lists.newArrayList();
+	private ObjectMapper mapper = new ObjectMapper();  
+	protected Map<String, Object> context = new HashMap<String, Object>();
+	@Autowired
+	private ReportsGeneratorService genaratorService;
 	@SuppressWarnings("deprecation")
-	@Override
-	public String execute(Context context) throws ObjectNotFoundException, InvalidArgumentException{
-		HttpServletRequest request = (HttpServletRequest)context.getValue(EAPConstance.SERVLET_REQUEST);
+	public String getForm(){
+			HttpServletRequest request = ServletActionContext.getRequest();
 	        //将要被返回到客户端的对象  
 		
 			long start = System.currentTimeMillis();
 			String locale = request.getParameter("locale");
 			String pathName = request.getParameter("action");
-			ReportsGeneratorService genaratorService = new ReportsGeneratorService();
 			String filePath = genaratorService.getFilePath(pathName);
 			String realPath = request.getRealPath(filePath);
 			int fileNameIndex = realPath.lastIndexOf(File.separator);
@@ -64,21 +72,28 @@ public class ExcelCreateFormAction extends EAPAction {
 			 */
 			Sheet sheet = workbook.getSheetAt(querySheet-1);
 			configItems = genaratorService.getExcelForm(sheet);
-			  try {
-					context.put("user", CommonUtil.ListToJson(configItems).toString());
-					context.put("queryFromName", queryFromName);
-					context.put("filePath",absoltePath.replaceAll("\\\\", "/"));
-					if(!Strings.isNullOrEmpty(validateFile)){
-						context.put("validateFile", validateFile);
-					}else{
-						System.out.println("生成表格或者验证js文件路径未设置");
-					}
-				} catch (EbillsException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			try {
+				context.put("user",mapper.writeValueAsString(configItems));
+			} catch (JsonProcessingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			context.put("queryFromName", queryFromName);
+			context.put("filePath",absoltePath.replaceAll("\\\\", "/"));
+			if(!Strings.isNullOrEmpty(validateFile)){
+				context.put("validateFile", validateFile);
+			}else{
+				System.out.println("生成表格或者验证js文件路径未设置");
+			}
 			  System.out.println("耗时: " + (System.currentTimeMillis() - start)+"毫秒");
-			  return null;
+//			  ServletActionContext.getRequest().setAttribute("context", context);
+			  return "info";
+	}
+	public Map<String, Object> getContext() {
+		return context;
+	}
+	public void setContext(Map<String, Object> context) {
+		this.context = context;
 	}
 
 }

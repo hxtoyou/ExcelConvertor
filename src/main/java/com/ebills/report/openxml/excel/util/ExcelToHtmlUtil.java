@@ -608,7 +608,7 @@ public class ExcelToHtmlUtil {
 	  }
 	public static int copySheet(Sheet srcSheet, Sheet destSheet,
 		      Workbook srcwb, Workbook destwb,Integer contentRow) throws Exception {
-		    int rowCount = srcSheet.getLastRowNum();// 总行数
+//		    int rowCount = srcSheet.getLastRowNum();// 总行数
 		    int maxCellNum = 0;
 		    Row srcRow = null, destRow = null;
 		    for (int i = 0; i < contentRow; i++) {
